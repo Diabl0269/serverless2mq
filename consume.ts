@@ -23,7 +23,9 @@ export const consume = async () => {
   const connection = await amqp.connect(defaultUrl);
   const channel = await connection.createChannel();
   await channel.assertExchange(exchange.name, exchange.type);
-  const q = await channel.assertQueue("");
+  const q = await channel.assertQueue("", {
+    autoDelete: true,
+  });
   await channel.bindQueue(q.queue, exchange.name, `${routingKeyPrefix}${key}`);
   await channel.consume(q.queue, (msg) => {
     console.log(`${key}-${nodeNum}: Consumed message successfully!
