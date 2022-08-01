@@ -27,7 +27,6 @@
     "typescript": "4.7.4"
   },
   "dependencies": {
-    "amqplib": "0.10.1",
-    "saferxlib": "github:perimeter-81/saferxlib#1.9.100"
+    "amqplib": "0.10.1"
   }
 }
