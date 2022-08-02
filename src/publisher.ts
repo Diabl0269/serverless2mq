@@ -1,6 +1,7 @@
-import amqp, { Connection } from "amqplib";
-import type { Channel } from "amqplib";
+import amqp from "amqplib";
+import type { Channel, Connection } from "amqplib";
 import { defaultUrl, exchange, keys, routingKeyPrefix } from "./config";
+import { ErrorHandler } from './errorHandler';
 
 type MsNames = typeof keys[number];
 
@@ -29,7 +30,7 @@ export type Payload = Event & {
 /**
  * A publisher class for producing events to a message broker.
  */
-export class Publisher {
+export class Publisher extends ErrorHandler {
   private connection: Connection | undefined;
   private channel: Channel | undefined;
 
@@ -72,12 +73,6 @@ export class Publisher {
     } catch (e) {
       this.onError(e);
       return false;
-    }
-  }
-
-  onError(e: unknown) {
-    if (e instanceof Error) {
-      console.error(e.message);
     }
   }
 }
